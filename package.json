@@ -1,0 +1,8 @@
+{
+  "name": "mmall",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/fucaobao/mmall.git",
+  "author": "fucaobao <466368084@qq.com>",
+  "license": "MIT"
+}
