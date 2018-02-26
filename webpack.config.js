@@ -6,9 +6,17 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     entry: './src/app.jsx',
     output: {
+        // path是webpack所有文件的输出的路径，必须是绝对路径，比如：output输出的js,url-loader解析的图片，HtmlWebpackPlugin生成的html文件，都会存放在以path为基础的目录下
         path: path.resolve(__dirname, 'dist'),
+        // publicPath 并不会对生成文件的路径造成影响，主要是对你的页面里面引入的资源的路径做对应的补全，常见的就是css文件里面引入的图片
         publicPath: '/dist/',
         filename: 'js/app.js'
+    },
+    resolve: {
+        alias: {
+            page: path.resolve(__dirname, 'src/page'),
+            components: path.resolve(__dirname, 'src/components')
+        }
     },
     module: {
         rules: [
@@ -77,7 +85,11 @@ module.exports = {
         })
     ],
     devServer: {
-        compress: true,
+        // compress: true,
+        // 404s将会跳转到index
+        historyApiFallback: {
+            index: '/dist/index.html'
+        },
         port: 9000
     }
 };

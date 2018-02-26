@@ -1,29 +1,37 @@
-// react 
+// react
 import React from 'react';
 // react-dom
 import ReactDom from 'react-dom';
 
-import './index.scss'
-let name = 'wangjp'
-let names = ['wangjp', 'fuyy', 'liaowy']
-let style = {
-    // color: 'red',
-    // 'fontSize': '18px'
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+
+import Home from 'page/home/index.jsx'
+import Product from 'page/product/index.jsx'
+import Category from 'page/product/category/index.jsx'
+import Order from 'page/order/index.jsx'
+import User from 'page/user/index.jsx'
+
+import Layout from 'components/layout/index.jsx'
+
+class App extends React.Component {
+    render() {
+        return (
+            <Router>
+                <Layout>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/product" component={Product} />
+                        <Route path="/product-category" component={Category} />
+                        <Route path="/order" component={Order} />
+                        <Route path="/user" component={User} />
+                    </Switch>
+                </Layout>
+            </Router>
+        )
+    }
 }
-let jsx = (<div className="jsx" style={style}>
-            {/*条件判断*/}
-            {
-                Math.random() > 0.5 ? <p>I am wangjp</p> : <p>I am not wangjp</p>
-            }
-            {/*数组循环*/}
-            {
-                names.map((name,index) => 
-                    <p key={index}>I am {name}</p>
-                )
-            }
-          </div>)
 
 ReactDom.render(
-    jsx,
+    <App />,
     document.getElementById('app')
 )
