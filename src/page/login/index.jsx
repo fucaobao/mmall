@@ -2,6 +2,10 @@ import React from 'react'
 
 import './index.scss'
 
+import _util from 'util/index.jsx'
+
+const _mutil = new _util()
+
 class Login extends React.Component {
     constructor(props) {
         super(props)
@@ -13,9 +17,24 @@ class Login extends React.Component {
     onInputChange(e) {
         let inputName = e.target.name,
             inputValue = e.target.value
-        // es6的key值key是变量，用中括号包起来
+        // es6的key值key可以是变量，用中括号包起来
         this.setState({
             [inputName]: inputValue
+        })
+    }
+    onSubmit() {
+        // http://admintest.happymmall.com
+        _mutil.request({
+            type: 'post',
+            url: '/manage/user/login.do',
+            data: {
+                username: this.state.username,
+                password: this.state.password
+            }
+        }).then((res) => {
+            console.log(res)
+        }, (err) => {
+            console.log(err)
         })
     }
     render() {
@@ -24,7 +43,7 @@ class Login extends React.Component {
                 <div className="panel panel-default login-panel">
                     <div className="panel-heading">欢迎登录 --- HAPPY MMALL管理系统</div>
                     <div className="panel-body">
-                        <form>
+                        <div>
                             <div className="form-group">
                                 <input type="text" className="form-control" placeholder="请输入用户名" name="username" onChange={e => this.onInputChange(e)}
                                 />
@@ -32,8 +51,8 @@ class Login extends React.Component {
                             <div className="form-group">
                                 <input type="password" className="form-control" placeholder="请输入密码" name="password" onChange={e => this.onInputChange(e)} />
                             </div>
-                            <button type="submit" className="btn btn-lg btn-block btn-primary">登录</button>
-                        </form>
+                            <button className="btn btn-lg btn-block btn-primary" onClick={e => this.onSubmit(e)}>登录</button>
+                        </div>
                     </div>
                 </div>
             </div>

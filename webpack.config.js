@@ -15,7 +15,8 @@ module.exports = {
     resolve: {
         alias: {
             page: path.resolve(__dirname, 'src/page'),
-            components: path.resolve(__dirname, 'src/components')
+            components: path.resolve(__dirname, 'src/components'),
+            util: path.resolve(__dirname, 'src/util'),
         }
     },
     module: {
@@ -90,6 +91,13 @@ module.exports = {
         historyApiFallback: {
             index: '/dist/index.html'
         },
-        port: 9000
+        port: 9000,
+        proxy: {
+            '/manage': {
+                target: 'http://admintest.happymmall.com',
+                // changeOrigin为true表示请求是从target发出的，否则，后台接收的还是原来的localhost
+                changeOrigin: true
+            }
+        }
     }
 };
