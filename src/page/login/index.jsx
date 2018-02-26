@@ -2,9 +2,9 @@ import React from 'react'
 
 import './index.scss'
 
-import _util from 'util/index.jsx'
+import User from 'service/user.jsx'
 
-const _mutil = new _util()
+const mUser = new User()
 
 class Login extends React.Component {
     constructor(props) {
@@ -24,13 +24,9 @@ class Login extends React.Component {
     }
     onSubmit() {
         // http://admintest.happymmall.com
-        _mutil.request({
-            type: 'post',
-            url: '/manage/user/login.do',
-            data: {
-                username: this.state.username,
-                password: this.state.password
-            }
+        mUser.login({
+            username: this.state.username,
+            password: this.state.password
         }).then((res) => {
             console.log(res)
         }, (err) => {
