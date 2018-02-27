@@ -1,14 +1,26 @@
 import React from 'react'
 
+import User from 'service/user.jsx'
+import Util from 'util/index.jsx'
+
+const mUser = new User()
+const mUtil = new Util()
+
 class NavTop extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userName: 'fucaobao'
+            userInfo: mUtil.getStorage('userInfo')
         }
     }
     onLogout() {
-        console.log('这是退出登录')
+        mUser.logout().then(res => {
+            mUtil.removeStorage('userInfo')
+            // this.props.history.push('/login')
+            window.location.href = '/login'
+        }, errMsg => {
+            mUtil.errorTips(errMsg)
+        })
     }
     render() {
         return (
@@ -22,8 +34,8 @@ class NavTop extends React.Component {
                         <a className="dropdown-toggle" href="#">
                             <i className="fa fa-user fa-fw"></i>
                             {
-                                    this.state.userName ?
-                                    <span>欢迎，{this.state.userName}</span> :
+                                this.state.userInfo.username ?
+                                    <span>欢迎，{this.state.userInfo.username}</span> :
                                     <span>欢迎</span>
                             }
                             <i className="fa fa-caret-down"></i>

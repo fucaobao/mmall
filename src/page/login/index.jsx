@@ -53,7 +53,8 @@ class Login extends React.Component {
             return
         }
         // http://admintest.happymmall.com
-        mUser.login(loginInfo).then(() => {
+        mUser.login(loginInfo).then((res) => {
+            mUtil.setStorage('userInfo', res)
             this.props.history.push(this.state.redirect)
         }, (errMsg) => {
             mUtil.errorTips(errMsg)

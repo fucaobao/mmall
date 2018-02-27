@@ -12,6 +12,12 @@ class User {
             data: userInfo
         })
     }
+    logout() {
+        return mUtil.request({
+            type: 'post',
+            url: '/user/logout.do'
+        })
+    }
     // 校验登录接口的数据是不是合法的
     checkLoginInfo(userInfo){
         let username = userInfo.username

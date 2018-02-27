@@ -98,6 +98,10 @@ module.exports = {
                 target: 'http://admintest.happymmall.com',
                 // changeOrigin为true表示请求是从target发出的，否则，后台接收的还是原来的localhost
                 changeOrigin: true
+            },
+            '/user/logout.do': {
+                target: 'http://admintest.happymmall.com',
+                changeOrigin: true
             }
         }
     }
