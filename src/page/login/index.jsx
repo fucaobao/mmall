@@ -16,24 +16,24 @@ class Login extends React.Component {
             password: '',
             redirect: mUtil.getUrlParam('redirect')
         }
+        this.hander = (e) => {
+            if(e.keyCode === 13) {
+                this.onSubmit()
+            }
+        }
     }
+    // DOM节点将要加载的时候，此时数据已经准备好
     componentWillMount() {
         document.title = '登录 - MMALL'
     }
-    // componentDidMount() {
-    //     document.addEventListener('keyup', (e) => {
-    //         if(e.keyCode === 13) {
-    //             this.onSubmit()
-    //         }
-    //     }, false)
-    // }
-    // componentWillUnmount() {
-    //     document.removeEventListener('keyup', (e) => {
-    //         if(e.keyCode === 13) {
-    //             this.onSubmit()
-    //         }
-    //     }, false)
-    // }
+    // DOM节点加载完成时候
+    componentDidMount() {
+        document.addEventListener('keyup', this.hander, false)
+    }
+    // 将要离开页面的时候
+    componentWillUnmount() {
+        document.removeEventListener('keyup', this.hander, false)
+    }
     onInputChange(e) {
         let inputName = e.target.name,
             inputValue = e.target.value
@@ -53,8 +53,7 @@ class Login extends React.Component {
             return
         }
         // http://admintest.happymmall.com
-        mUser.login(loginInfo).then((res) => {
-            console.log(res)
+        mUser.login(loginInfo).then(() => {
             this.props.history.push(this.state.redirect)
         }, (errMsg) => {
             mUtil.errorTips(errMsg)
