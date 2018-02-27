@@ -3,17 +3,37 @@ import React from 'react'
 import './index.scss'
 
 import User from 'service/user.jsx'
+import Util from 'util/index.jsx'
 
 const mUser = new User()
+const mUtil = new Util()
 
 class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            redirect: mUtil.getUrlParam('redirect')
         }
     }
+    componentWillMount() {
+        document.title = '登录 - MMALL'
+    }
+    // componentDidMount() {
+    //     document.addEventListener('keyup', (e) => {
+    //         if(e.keyCode === 13) {
+    //             this.onSubmit()
+    //         }
+    //     }, false)
+    // }
+    // componentWillUnmount() {
+    //     document.removeEventListener('keyup', (e) => {
+    //         if(e.keyCode === 13) {
+    //             this.onSubmit()
+    //         }
+    //     }, false)
+    // }
     onInputChange(e) {
         let inputName = e.target.name,
             inputValue = e.target.value
@@ -23,14 +43,21 @@ class Login extends React.Component {
         })
     }
     onSubmit() {
-        // http://admintest.happymmall.com
-        mUser.login({
+        let loginInfo = {
             username: this.state.username,
             password: this.state.password
-        }).then((res) => {
+        }
+        let checkResult = mUser.checkLoginInfo(loginInfo)
+        if(!checkResult.status){
+            mUtil.errorTips(checkResult.msg)
+            return
+        }
+        // http://admintest.happymmall.com
+        mUser.login(loginInfo).then((res) => {
             console.log(res)
-        }, (err) => {
-            console.log(err)
+            this.props.history.push(this.state.redirect)
+        }, (errMsg) => {
+            mUtil.errorTips(errMsg)
         })
     }
     render() {
@@ -41,8 +68,7 @@ class Login extends React.Component {
                     <div className="panel-body">
                         <div>
                             <div className="form-group">
-                                <input type="text" className="form-control" placeholder="请输入用户名" name="username" onChange={e => this.onInputChange(e)}
-                                />
+                                <input type="text" className="form-control" placeholder="请输入用户名" name="username" onChange={e => this.onInputChange(e)} />
                             </div>
                             <div className="form-group">
                                 <input type="password" className="form-control" placeholder="请输入密码" name="password" onChange={e => this.onInputChange(e)} />
