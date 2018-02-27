@@ -2,7 +2,7 @@ import React from 'react'
 
 import './index.scss'
 
-import User from 'service/user.jsx'
+import User from 'api/user.jsx'
 import Util from 'util/index.jsx'
 
 const mUser = new User()

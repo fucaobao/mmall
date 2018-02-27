@@ -11,6 +11,7 @@ import Category from 'page/product/category/index.jsx'
 import Order from 'page/order/index.jsx'
 import User from 'page/user/index.jsx'
 import Login from 'page/login/index.jsx'
+import ErrorPage from 'page/error/index.jsx'
 
 import Layout from 'components/layout/index.jsx'
 
@@ -28,6 +29,7 @@ class App extends React.Component {
                                 <Route path="/product-category" component={Category} />
                                 <Route path="/order" component={Order} />
                                 <Route path="/user" component={User} />
+                                <Route component={ErrorPage} />
                             </Switch>
                         </Layout>
                     )} />

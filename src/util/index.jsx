@@ -1,13 +1,30 @@
+const conf = {
+    // online
+    // serverHost: 'http://admin.happymmall.com'
+    // dev
+    serverHost: '',
+    imageHost: 'http://img.happymmall.com/',
+}
+
 class Util {
+    // 跳转到首页
     doLogin() {
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname)
+    }
+    // 获取请求url地址
+    getServerUrl(path) {
+        return conf.serverHost + path
+    }
+    // 获取图片地址
+    getImageUrl(path) {
+        return conf.imageHost + path
     }
     // 获取URL参数
     getUrlParam(name, url) {
         let u = url || window.location.search,
             reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)'),
             r = u.substr(u.indexOf('\?') + 1).match(reg)
-        return r != null ? decodeURIComponent(r[2]) : '';
+        return r != null ? decodeURIComponent(r[2]) : ''
     }
     errorTips(errMsg) {
         alert(errMsg || '出错了')

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import User from 'service/user.jsx'
+import User from 'api/user.jsx'
 import Util from 'util/index.jsx'
 
 const mUser = new User()
