@@ -18,6 +18,15 @@ class User {
             url: '/user/logout.do'
         })
     }
+    getUserList(pageNum) {
+        return mUtil.request({
+            type: 'post',
+            url: '/manage/user/list.do',
+            data: {
+                pageNum: pageNum
+            }
+        })
+    }
     // 校验登录接口的数据是不是合法的
     checkLoginInfo(userInfo){
         let username = userInfo.username
