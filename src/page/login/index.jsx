@@ -16,8 +16,9 @@ class Login extends React.Component {
             password: '',
             redirect: mUtil.getUrlParam('redirect')
         }
-        this.hander = (e) => {
+        this.handler = (e) => {
             if(e.keyCode === 13) {
+                console.log('login')
                 this.onSubmit()
             }
         }
@@ -28,11 +29,11 @@ class Login extends React.Component {
     }
     // DOM节点加载完成时候
     componentDidMount() {
-        document.addEventListener('keyup', this.hander, false)
+        document.addEventListener('keyup', this.handler, false)
     }
     // 将要离开页面的时候
     componentWillUnmount() {
-        document.removeEventListener('keyup', this.hander, false)
+        document.removeEventListener('keyup', this.handler, false)
     }
     onInputChange(e) {
         let inputName = e.target.name,

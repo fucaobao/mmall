@@ -6,6 +6,8 @@ import Pagination from 'util/pagination/index.jsx'
 import PageTitle from 'components/page-title/index.jsx'
 import TableList from 'util/table-list/index.jsx'
 
+import ListSearch from './index-list-search.jsx'
+
 import Product from 'api/product.jsx'
 const mProduct = new Product()
 
@@ -19,14 +21,26 @@ class ProductList extends React.Component {
         super(props)
         this.state = {
             list: [],
-            pageNum: 1
+            pageNum: 1,
+            listType: 'list'
         }
     }
     componentDidMount() {
         this.getProductList()
     }
+    // 加载商品列表
     getProductList() {
-        mProduct.getProductList(this.state.pageNum).then(res => {
+        debugger
+        let listParam = {}
+        let listType = this.state.listType
+        listParam.listType = listType
+        listParam.pageNum = this.state.pageNum
+        // 如果是搜索的话，需要传入搜索条件
+        if (listType == 'search') {
+            listParam.searchType = this.state.searchType
+            listParam.keyword = this.state.searchKeyword
+        }
+        mProduct.getProductList(listParam).then(res => {
             this.setState(res)
         }, errMsg => {
             this.setState({
@@ -35,6 +49,19 @@ class ProductList extends React.Component {
             mUtil.errorTips(errMsg)
         })
     }
+    // 搜索
+    onSearch(searchType, searchKeyword) {
+        let listType = searchKeyword === '' ? 'list' : 'search'
+        this.setState({
+            listType: listType,
+            pageNum: 1,
+            searchType: searchType,
+            searchKeyword: searchKeyword
+        }, () => {
+            this.getProductList()
+        });
+    }
+    // 页面改变时
     onPageNumChange(pageNum) {
         this.setState({
             pageNum: pageNum
@@ -68,6 +95,7 @@ class ProductList extends React.Component {
         return (
             <div id="page-wrapper">
                 <PageTitle title="商品列表" />
+                <ListSearch onSearch={(searchType, searchKeyword) => this.onSearch(searchType, searchKeyword)}/>
                 <TableList tableHead={tableHead}>
                     {
                         this.state.list.map((product, index) => {
