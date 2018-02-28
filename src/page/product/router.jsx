@@ -1,7 +1,5 @@
 // react
 import React from 'react'
-// react-dom
-import ReactDom from 'react-dom'
 
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom'
 
@@ -18,7 +16,4 @@ class ProductRouter extends React.Component {
     }
 }
 
-ReactDom.render(
-    <ProductRouter />,
-    document.getElementById('app')
-)
+export default ProductRouter
