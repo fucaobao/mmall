@@ -26,6 +26,9 @@ class Util {
             r = u.substr(u.indexOf('\?') + 1).match(reg)
         return r != null ? decodeURIComponent(r[2]) : ''
     }
+    successTips(successMsg) {
+        alert(successMsg || '成功了')
+    }
     errorTips(errMsg) {
         alert(errMsg || '出错了')
     }

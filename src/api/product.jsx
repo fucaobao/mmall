@@ -14,6 +14,13 @@ class Product {
             }
         })
     }
+    setProductStatus(productInfo) {
+        return mUtil.request({
+            type: 'post',
+            url: '/manage/product/set_sale_status.do',
+            data: productInfo
+        })
+    }
 }
 
 export default Product

@@ -12,6 +12,8 @@ const mProduct = new Product()
 import Util from 'util/index.jsx'
 const mUtil = new Util()
 
+import './index.scss'
+
 class ProductList extends React.Component {
     constructor(props) {
         super(props)
@@ -40,20 +42,51 @@ class ProductList extends React.Component {
             this.getProductList()
         })
     }
+    onSetProductStatue(e, productId, currentStatus) {
+        let newStatus = currentStatus == 1 ? 2 : 1,
+            confirmTips = currentStatus == 1 ? '确定要下架该商品？' : '缺点要上架该商品'
+        if (window.confirm(confirmTips)){
+            mProduct.setProductStatus({
+                productId: productId,
+                status: newStatus
+            }).then(res => {
+                mUtil.successTips(res)
+                this.getProductList()
+            }, errMsg => {
+                mUtil.errorTips(errMsg)
+            })
+        }
+    }
     render() {
+        let tableHead = [
+            { 'name':'商品ID', 'width':'10%'},
+            { 'name':'商品信息', 'width':'50%'},
+            { 'name':'价格', 'width':'10%'},
+            { 'name':'状态', 'width':'15%'},
+            { 'name':'操作', 'width':'15%'}
+        ]
         return (
             <div id="page-wrapper">
                 <PageTitle title="商品列表" />
-                <TableList>
+                <TableList tableHead={tableHead}>
                     {
-                        this.state.list.map((user, index) => {
+                        this.state.list.map((product, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{user.id}</td>
-                                    <td>{user.username}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.phone}</td>
-                                    <td>{mUtil.cTimestamp(1, user.createTime)}</td>
+                                    <td>{product.id}</td>
+                                    <td>
+                                        <p>{product.name}</p>
+                                        <p>{product.subtitle}</p>
+                                    </td>
+                                    <td>￥{product.price}</td>
+                                    <td>
+                                        <p>{product.status == 1 ? '在售' : '已下架'}</p>
+                                        <button className="btn btn-xs btn-warning" onClick={(e) => {this.onSetProductStatue(e,product.id, product.status)}}>{product.status == 1 ? '下架' : '上架'}</button>
+                                    </td>
+                                    <td>
+                                        <Link className="operate" to={`/product/detail/${product.id}`}>详情</Link>
+                                        <Link className="operate" to={`/product/save/${product.id}`}>编辑</Link>
+                                    </td>
                                 </tr>
                             )
                         })

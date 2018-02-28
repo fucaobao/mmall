@@ -16,7 +16,11 @@ class TableList extends React.Component {
     }
     render() {
         let tableHead = this.props.tableHead.map((item, index) => {
-            return <th key={index}>{item}</th>
+            if (typeof item === 'object') {
+                return <th key={index} width={item.width}>{item.name}</th>
+            } else if (typeof item === 'string' || typeof item === 'number' || typeof item === 'boolean'){
+                return <th key={index}>{item}</th>
+            }
         })
         let listInfo = (
             <tr>
